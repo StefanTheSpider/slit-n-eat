@@ -1,13 +1,65 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.App {
+    padding: 1rem;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.btn {
+    color: aliceblue;
+    background-color: blueviolet;
+    border-radius: 1rem;
+    width: 5rem;
+}
+
+/* --------------------------------*/
+
+.friends-container {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
+
+.friends-grid-container {
+    height: 8rem;
+    display: grid;
+    grid-template-columns: 1fr 10fr 10fr;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.friends-container > button {
+    padding: 0.5rem 1.5rem;
+    width: 5rem;
+    align-self: flex-end;
+}
+
+.image-select {
+    width: 8rem;
+    height: 8rem;
+}
+
+.name-selected-friend-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.select {
+    height: 2rem;
+    justify-content: center;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+/* --------------------------------*/
+
+.add-friend-container {
+    border: 2px solid blue;
+    margin-bottom: 2rem;
+}
+
+/* --------------------------------*/
+
+.split-with-container {
+    border: 2px solid tomato;
+    margin-bottom: 2rem;
 }
