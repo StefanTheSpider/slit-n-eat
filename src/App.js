@@ -29,6 +29,7 @@ function SlitNEat() {
     function handlerOpenModule() {
         setOpenModule(!openModule);
     }
+
     return (
         <div className="app-container">
             <div className="first-half">
@@ -42,11 +43,13 @@ function SlitNEat() {
     );
 }
 
-function FriendsList() {
+function FriendsList({ openModule, onHanlerOpenModule }) {
     const [openAddFriend, setOpenAddFriend] = useState(false);
     function handlerOpenAddFriend() {
         setOpenAddFriend(!openAddFriend);
+        console.log(openAddFriend);
     }
+
     return (
         <div className="friends-container">
             <ul>
@@ -56,6 +59,8 @@ function FriendsList() {
                         img={friend.image}
                         key={friend.id}
                         amount={friend.amount}
+                        openModule={openModule}
+                        onHanlerOpenModule={onHanlerOpenModule}
                     />
                 ))}
             </ul>
@@ -87,29 +92,37 @@ function Friends({ name, img, amount }) {
                     <p>{name}</p>
                     <p>{amount}</p>
                 </div>
-                <SelectButton />
+                <button className="btn select">selct</button>
             </li>
         </form>
     );
 }
 
-function SelectButton({ onHanlerOpenModule, openModule }) {
-    return (
-        <button onClick={onHanlerOpenModule} className="btn select">
-            {openModule ? 'close' : 'select'}
-        </button>
-    );
-}
-
 function SplitWith({ openModule }) {
-    if (openModule)
+    if (!openModule)
         return (
-            <div className="split-with-container">
-                <input></input>
-                <input></input>
-                <p></p>
-                <select></select>
-                <button className="btn">split bill</button>
-            </div>
+            <form className="split-with-container">
+                <div className="flex-item">
+                    <p>Bill valeu</p>
+                    <input></input>
+                </div>
+                <div className="flex-item">
+                    <p>Your expense</p>
+                    <input></input>
+                </div>
+                <div className="flex-item">
+                    <p>Friends expense</p>
+                    <p></p>
+                </div>
+                <div className="flex-item">
+                    <p>Who is paying?</p>
+                    <select>
+                        <option>You</option>
+                        <option>Friend</option>
+                    </select>
+                </div>
+
+                <button className="btn select">split bill</button>
+            </form>
         );
 }

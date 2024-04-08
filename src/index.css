@@ -98,6 +98,24 @@ ul {
 /* --------------------------------*/
 
 .split-with-container {
-    border: 2px solid tomato;
-    margin-bottom: 2rem;
+    background-color: lightgray;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    padding: 3rem;
+}
+
+.flex-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: space-around;
+    margin-bottom: 0.5rem;
+}
+
+.flex-item > select {
+    text-align: center;
+}
+
+.split-with-container > button {
+    float: right;
+    margin-top: 2rem;
 }
