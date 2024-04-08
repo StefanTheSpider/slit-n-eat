@@ -9,13 +9,27 @@
     width: 5rem;
 }
 
+ul {
+    padding: 0;
+}
+
+/* --------------------------------*/
+
+.app-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+}
+
+.first-half {
+}
+
 /* --------------------------------*/
 
 .friends-container {
     margin-bottom: 2rem;
     display: flex;
     flex-direction: column;
-    width: 70%;
 }
 
 .friends-grid-container {
@@ -23,7 +37,7 @@
     display: grid;
     grid-template-columns: 1fr 10fr 10fr;
     gap: 2rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     background-color: lightgray;
     padding: 0.5rem;
 }
@@ -38,6 +52,7 @@
     width: 8rem;
     height: 8rem;
     border-radius: 50%;
+    object-fit: cover;
 }
 
 .name-selected-friend-text {
@@ -48,7 +63,7 @@
 
 .select {
     height: 2rem;
-    justify-content: center;
+    justify-self: flex-end;
     margin-top: auto;
     margin-bottom: auto;
 }
@@ -56,10 +71,30 @@
 /* --------------------------------*/
 
 .add-friend-container {
-    border: 2px solid blue;
+    background-color: lightgray;
     margin-bottom: 2rem;
+    margin-top: 1rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
 }
 
+.first-input,
+.second-input {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    justify-content: space-around;
+    margin-bottom: 0.5rem;
+}
+
+.add-friend-container > button {
+    align-self: end;
+}
+
+.close {
+    margin-top: 0.5rem;
+}
 /* --------------------------------*/
 
 .split-with-container {
