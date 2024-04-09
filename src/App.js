@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import AddFriend from './AddFriend';
+import Button from './Button';
 
 const friends = [
     {
@@ -27,29 +28,32 @@ export default function App() {
 function SlitNEat() {
     const [openModule, setOpenModule] = useState(false);
     function handlerOpenModule() {
-        setOpenModule(!openModule);
+        setOpenModule((open) => !open);
+    }
+
+    const [openAddFriend, setOpenAddFriend] = useState(false);
+    function handlerOpenAddFriend() {
+        setOpenAddFriend(!openAddFriend);
     }
 
     return (
         <div className="app-container">
             <div className="first-half">
                 <FriendsList></FriendsList>
+                <AddFriend openAddFriend={openAddFriend}></AddFriend>
+                <Button onHandlerOpenAddFriend={handlerOpenAddFriend}>
+                    {!openAddFriend ? 'add' : 'close'}
+                </Button>
             </div>
             <SplitWith
                 openModule={openModule}
-                onHanlerOpenModule={handlerOpenModule}
+                onHandlerOpenModule={handlerOpenModule}
             ></SplitWith>
         </div>
     );
 }
 
-function FriendsList({ openModule, onHanlerOpenModule }) {
-    const [openAddFriend, setOpenAddFriend] = useState(false);
-    function handlerOpenAddFriend() {
-        setOpenAddFriend(!openAddFriend);
-        console.log(openAddFriend);
-    }
-
+function FriendsList({ openAddFriend, openModule, onHanlerOpenModule }) {
     return (
         <div className="friends-container">
             <ul>
@@ -59,24 +63,9 @@ function FriendsList({ openModule, onHanlerOpenModule }) {
                         img={friend.image}
                         key={friend.id}
                         amount={friend.amount}
-                        openModule={openModule}
-                        onHanlerOpenModule={onHanlerOpenModule}
                     />
                 ))}
             </ul>
-            {!openAddFriend ? (
-                <button className="btn" onClick={handlerOpenAddFriend}>
-                    add
-                </button>
-            ) : (
-                ''
-            )}
-
-            {openAddFriend ? (
-                <AddFriend onOpenAddFriend={handlerOpenAddFriend} />
-            ) : (
-                ''
-            )}
         </div>
     );
 }
@@ -92,13 +81,13 @@ function Friends({ name, img, amount }) {
                     <p>{name}</p>
                     <p>{amount}</p>
                 </div>
-                <button className="btn select">selct</button>
+                <Button>selct</Button>
             </li>
         </form>
     );
 }
 
-function SplitWith({ openModule }) {
+function SplitWith({ openModule, onHandlerOpenModule }) {
     if (!openModule)
         return (
             <form className="split-with-container">
@@ -122,7 +111,9 @@ function SplitWith({ openModule }) {
                     </select>
                 </div>
 
-                <button className="btn select">split bill</button>
+                <Button onHandlerOpenModule={onHandlerOpenModule}>
+                    split bill
+                </Button>
             </form>
         );
 }
