@@ -126,3 +126,11 @@ button:hover {
     background-color: #fff;
     color: blueviolet;
 }
+
+.red {
+    color: red;
+}
+
+.green {
+    color: green;
+}

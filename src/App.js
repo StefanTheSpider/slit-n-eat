@@ -3,7 +3,7 @@ import AddFriend from './AddFriend';
 import Button from './Button';
 import SplitWith from './SplitWith';
 
-const friends = [
+const InitialFriends = [
     {
         id: 1,
         image: 'https://www.ws-trend.de/cdn/shop/articles/wsonnwald_00886_spiderman_swinging_beb96897-ff40-437e-bbc0-53dffb2dd231.png?v=1696231723',
@@ -25,38 +25,50 @@ const friends = [
 ];
 
 export default function App() {
-    const [openAddFriend, setOpenAddFriend] = useState(false);
-    const [openSplitModule, setOpenSplitModule] = useState(false);
+    const [friends, setFriends] = useState(InitialFriends);
 
-    function handleOpenAddFriend() {
-        setOpenAddFriend((openFriend) => !openFriend);
+    function handleAddFriend(friend) {
+        setFriends((friends) => [...friends, friend]);
     }
 
-    function handleOpenSplitModule() {
-        setOpenSplitModule((openModule) => !openModule);
+    const [openAddFriend, setOpenAddFriend] = useState(false);
+
+    function handleOpenAddFriend() {
+        setOpenAddFriend((show) => !show);
+    }
+
+    const [openSplitt, setOpenSplitt] = useState(false);
+
+    function handleOpenSplitt() {
+        setOpenSplitt((show) => !show);
     }
 
     return (
         <div className="app-container">
             <div className="first-half">
-                <FriendsList></FriendsList>
-                {openAddFriend && <AddFriend></AddFriend>}
-                <Button onClick={handleOpenAddFriend}>add a friend</Button>
+                <FriendsList friends={friends}></FriendsList>
+                {openAddFriend && (
+                    <AddFriend
+                        onAddFriend={handleAddFriend}
+                        onClick={handleOpenSplitt}
+                    />
+                )}
+                <Button onClick={handleOpenAddFriend}>
+                    {!openAddFriend ? 'add a friend' : 'close'}
+                </Button>
             </div>
 
-            {!openSplitModule ? (
+            {openSplitt && (
                 <div className="split-with-container">
                     <SplitWith></SplitWith>
-                    <Button>split bill</Button>
+                    <Button onClick={handleOpenSplitt}>split bill</Button>
                 </div>
-            ) : (
-                ''
             )}
         </div>
     );
 }
 
-function FriendsList() {
+function FriendsList({ friends }) {
     return (
         <div className="friends-container">
             <ul>
@@ -73,7 +85,7 @@ function FriendsList() {
     );
 }
 
-function Friends({ name, img, amount }) {
+function Friends({ name, img, amount, onClick }) {
     return (
         <form className="friends-form">
             <li className="friends-grid-container">
@@ -81,14 +93,14 @@ function Friends({ name, img, amount }) {
                     <img alt="name" className="image-select" src={img}></img>
                 </div>
                 <div className="name-selected-friend-text">
-                    <p>{name}</p>
+                    <h3>{name}</h3>
                     <p>
                         {amount < 0 ? (
-                            <p>
+                            <p className="red">
                                 you owe {name} {Math.abs(amount)}€
                             </p>
                         ) : amount > 0 ? (
-                            <p>
+                            <p className="green">
                                 {name} owes you {amount}€
                             </p>
                         ) : (
@@ -96,7 +108,7 @@ function Friends({ name, img, amount }) {
                         )}
                     </p>
                 </div>
-                <Button>select</Button>
+                <Button onClick={onClick}>select</Button>
             </li>
         </form>
     );
