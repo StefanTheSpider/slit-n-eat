@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import AddFriend from './AddFriend';
 import Button from './Button';
+import SplitWith from './SplitWith';
 
 const friends = [
     {
@@ -15,45 +16,47 @@ const friends = [
         name: 'Doc Ock',
         amount: -10,
     },
+    {
+        id: 3,
+        image: 'https://www.superheldenfilme.net/wp-content/uploads/2020/04/venom-let-there-be-carnage-venom-2-heisst-nun-venom-let-there-be-carnage-und-kommt-8-monate-spaeter-ins-kino.jpg',
+        name: 'Venom',
+        amount: 0,
+    },
 ];
 
 export default function App() {
-    return (
-        <div className="App">
-            <SlitNEat />
-        </div>
-    );
-}
+    const [openAddFriend, setOpenAddFriend] = useState(false);
+    const [openSplitModule, setOpenSplitModule] = useState(false);
 
-function SlitNEat() {
-    const [openModule, setOpenModule] = useState(false);
-    function handlerOpenModule() {
-        setOpenModule((open) => !open);
+    function handleOpenAddFriend() {
+        setOpenAddFriend((openFriend) => !openFriend);
     }
 
-    const [openAddFriend, setOpenAddFriend] = useState(false);
-    function handlerOpenAddFriend() {
-        setOpenAddFriend(!openAddFriend);
+    function handleOpenSplitModule() {
+        setOpenSplitModule((openModule) => !openModule);
     }
 
     return (
         <div className="app-container">
             <div className="first-half">
                 <FriendsList></FriendsList>
-                <AddFriend openAddFriend={openAddFriend}></AddFriend>
-                <Button onHandlerOpenAddFriend={handlerOpenAddFriend}>
-                    {!openAddFriend ? 'add' : 'close'}
-                </Button>
+                {openAddFriend && <AddFriend></AddFriend>}
+                <Button onClick={handleOpenAddFriend}>add a friend</Button>
             </div>
-            <SplitWith
-                openModule={openModule}
-                onHandlerOpenModule={handlerOpenModule}
-            ></SplitWith>
+
+            {!openSplitModule ? (
+                <div className="split-with-container">
+                    <SplitWith></SplitWith>
+                    <Button>split bill</Button>
+                </div>
+            ) : (
+                ''
+            )}
         </div>
     );
 }
 
-function FriendsList({ openAddFriend, openModule, onHanlerOpenModule }) {
+function FriendsList() {
     return (
         <div className="friends-container">
             <ul>
@@ -72,48 +75,29 @@ function FriendsList({ openAddFriend, openModule, onHanlerOpenModule }) {
 
 function Friends({ name, img, amount }) {
     return (
-        <form>
+        <form className="friends-form">
             <li className="friends-grid-container">
                 <div className="image-selected-friend">
                     <img alt="name" className="image-select" src={img}></img>
                 </div>
                 <div className="name-selected-friend-text">
                     <p>{name}</p>
-                    <p>{amount}</p>
+                    <p>
+                        {amount < 0 ? (
+                            <p>
+                                you owe {name} {Math.abs(amount)}€
+                            </p>
+                        ) : amount > 0 ? (
+                            <p>
+                                {name} owes you {amount}€
+                            </p>
+                        ) : (
+                            <p>you are even</p>
+                        )}
+                    </p>
                 </div>
-                <Button>selct</Button>
+                <Button>select</Button>
             </li>
         </form>
     );
-}
-
-function SplitWith({ openModule, onHandlerOpenModule }) {
-    if (!openModule)
-        return (
-            <form className="split-with-container">
-                <div className="flex-item">
-                    <p>Bill valeu</p>
-                    <input></input>
-                </div>
-                <div className="flex-item">
-                    <p>Your expense</p>
-                    <input></input>
-                </div>
-                <div className="flex-item">
-                    <p>Friends expense</p>
-                    <p></p>
-                </div>
-                <div className="flex-item">
-                    <p>Who is paying?</p>
-                    <select>
-                        <option>You</option>
-                        <option>Friend</option>
-                    </select>
-                </div>
-
-                <Button onHandlerOpenModule={onHandlerOpenModule}>
-                    split bill
-                </Button>
-            </form>
-        );
 }

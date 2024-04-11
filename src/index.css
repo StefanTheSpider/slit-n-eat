@@ -6,7 +6,8 @@
     color: aliceblue;
     background-color: blueviolet;
     border-radius: 1rem;
-    width: 5rem;
+    width: 5.5rem;
+    float: right;
 }
 
 ul {
@@ -19,9 +20,6 @@ ul {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 3rem;
-}
-
-.first-half {
 }
 
 /* --------------------------------*/
@@ -38,8 +36,11 @@ ul {
     grid-template-columns: 1fr 10fr 10fr;
     gap: 2rem;
     margin-bottom: 0.5rem;
-    background-color: lightgray;
     padding: 0.5rem;
+}
+
+.friends-form :hover {
+    background-color: lightgray;
 }
 
 .friends-container > button {
@@ -111,11 +112,17 @@ ul {
     margin-bottom: 0.5rem;
 }
 
-.flex-item > select {
+.flex-item > select,
+input {
     text-align: center;
 }
 
 .split-with-container > button {
     float: right;
     margin-top: 2rem;
+}
+
+button:hover {
+    background-color: #fff;
+    color: blueviolet;
 }
