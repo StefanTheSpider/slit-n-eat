@@ -1,8 +1,15 @@
 import { useState } from 'react';
 
 export default function SplitWith() {
-    const [bill, setBill] = useState(0);
-    const [expense, setExpense] = useState(0);
+    const [bill, setBill] = useState(null);
+    const [expense, setExpense] = useState(null);
+    const [whoPays, setWhoPays] = useState('You');
+
+    function handleBill() {
+        let splitedBill = Math.abs(bill - expense);
+        return splitedBill;
+    }
+
     return (
         <form>
             <div className="flex-item">
@@ -23,13 +30,16 @@ export default function SplitWith() {
             </div>
             <div className="flex-item">
                 <p>Friends expense</p>
-                <input disabled></input>
+                <input value={handleBill()} disabled></input>
             </div>
             <div className="flex-item">
                 <p>Who is paying?</p>
-                <select>
-                    <option>You</option>
-                    <option>Friend</option>
+                <select
+                    onChange={(e) => setWhoPays(e.target.value)}
+                    value={whoPays}
+                >
+                    <option value="You">You</option>
+                    <option value="Friend">Friend</option>
                 </select>
             </div>
         </form>

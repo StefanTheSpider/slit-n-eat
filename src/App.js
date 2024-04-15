@@ -46,7 +46,10 @@ export default function App() {
     return (
         <div className="app-container">
             <div className="first-half">
-                <FriendsList friends={friends}></FriendsList>
+                <FriendsList
+                    onClick={handleOpenSplitt}
+                    friends={friends}
+                ></FriendsList>
                 {openAddFriend && (
                     <AddFriend
                         onAddFriend={handleAddFriend}
@@ -58,17 +61,17 @@ export default function App() {
                 </Button>
             </div>
 
-            {openSplitt && (
+            {!openSplitt && (
                 <div className="split-with-container">
                     <SplitWith></SplitWith>
-                    <Button onClick={handleOpenSplitt}>split bill</Button>
+                    <Button>split bill</Button>
                 </div>
             )}
         </div>
     );
 }
 
-function FriendsList({ friends }) {
+function FriendsList({ friends, onClick }) {
     return (
         <div className="friends-container">
             <ul>
@@ -78,6 +81,7 @@ function FriendsList({ friends }) {
                         img={friend.image}
                         key={friend.id}
                         amount={friend.amount}
+                        onClick={onClick}
                     />
                 ))}
             </ul>
