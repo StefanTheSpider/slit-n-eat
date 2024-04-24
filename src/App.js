@@ -30,58 +30,61 @@ export default function App() {
     function handleAddFriend(friend) {
         setFriends((friends) => [...friends, friend]);
     }
-
+    /**
+     *! Hier wird der State für das öfnen und schlißen des Moduls "Freund hinzufügen" gesetzt
+     */
     const [openAddFriend, setOpenAddFriend] = useState(false);
-
+    /**
+     *! Hier wird der State für das öfnen und schlißen des Moduls "Freund hinzufügen" gesteuert
+     */
     function handleOpenAddFriend() {
         setOpenAddFriend((show) => !show);
     }
 
-    const [openSplitt, setOpenSplitt] = useState(false);
+    const [selectedFriends, setSelectedFriends] = useState(null);
 
-    function handleOpenSplitt() {
-        setOpenSplitt((show) => !show);
+    function handleSelections(friend) {
+        setSelectedFriends((selected) =>
+            selected?.id === friend.id ? null : friend
+        );
+        setOpenAddFriend(false);
     }
 
     return (
         <div className="app-container">
             <div className="first-half">
                 <FriendsList
-                    onClick={handleOpenSplitt}
                     friends={friends}
-                ></FriendsList>
+                    onSelections={handleSelections}
+                    selectedFriends={selectedFriends}
+                />
+
                 {openAddFriend && (
                     <AddFriend
+                        onAddFriendButton={handleOpenAddFriend}
                         onAddFriend={handleAddFriend}
-                        onClick={handleOpenSplitt}
                     />
                 )}
+
                 <Button onClick={handleOpenAddFriend}>
                     {!openAddFriend ? 'add a friend' : 'close'}
                 </Button>
             </div>
-
-            {!openSplitt && (
-                <div className="split-with-container">
-                    <SplitWith></SplitWith>
-                    <Button>split bill</Button>
-                </div>
-            )}
+            {selectedFriends && <SplitWith selectedFriends={selectedFriends} />}
         </div>
     );
 }
 
-function FriendsList({ friends, onClick }) {
+function FriendsList({ friends, onSelections, selectedFriends }) {
     return (
         <div className="friends-container">
             <ul>
                 {friends.map((friend) => (
                     <Friends
-                        name={friend.name}
-                        img={friend.image}
+                        friend={friend}
                         key={friend.id}
-                        amount={friend.amount}
-                        onClick={onClick}
+                        onSelections={onSelections}
+                        onSelectedFriends={selectedFriends}
                     />
                 ))}
             </ul>
@@ -89,31 +92,40 @@ function FriendsList({ friends, onClick }) {
     );
 }
 
-function Friends({ name, img, amount, onClick }) {
+function Friends({ friend, onSelections, onSelectedFriends }) {
+    const isSelected = onSelectedFriends?.id === friend.id;
+    console.log(isSelected);
+
     return (
-        <form className="friends-form">
+        <div className={isSelected ? 'selected' : 'friends-form'}>
             <li className="friends-grid-container">
                 <div className="image-selected-friend">
-                    <img alt="name" className="image-select" src={img}></img>
+                    <img
+                        alt="name"
+                        className="image-select"
+                        src={friend.image}
+                    ></img>
                 </div>
                 <div className="name-selected-friend-text">
-                    <h3>{name}</h3>
-                    <p>
-                        {amount < 0 ? (
+                    <h3>{friend.name}</h3>
+                    <div>
+                        {friend.amount < 0 ? (
                             <p className="red">
-                                you owe {name} {Math.abs(amount)}€
+                                you owe {friend.name} {Math.abs(friend.amount)}€
                             </p>
-                        ) : amount > 0 ? (
+                        ) : friend.amount > 0 ? (
                             <p className="green">
-                                {name} owes you {amount}€
+                                {friend.name} owes you {friend.amount}€
                             </p>
                         ) : (
                             <p>you are even</p>
                         )}
-                    </p>
+                    </div>
                 </div>
-                <Button onClick={onClick}>select</Button>
+                <Button onClick={() => onSelections(friend)}>
+                    {isSelected ? 'close' : 'select'}
+                </Button>
             </li>
-        </form>
+        </div>
     );
 }

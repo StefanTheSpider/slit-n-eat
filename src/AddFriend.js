@@ -1,7 +1,7 @@
 import Button from './Button';
 import { useState } from 'react';
 
-export default function AddFriend({ onAddFriend }) {
+export default function AddFriend({ onAddFriend, onAddFriendButton }) {
     const [name, setName] = useState('');
     const [image, setImg] = useState('');
 
@@ -17,6 +17,7 @@ export default function AddFriend({ onAddFriend }) {
         onAddFriend(newFriend);
         setImg('');
         setName('');
+        onAddFriendButton(false);
     }
 
     return (

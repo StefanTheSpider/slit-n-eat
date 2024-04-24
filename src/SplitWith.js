@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import Button from './Button';
 
-export default function SplitWith() {
+export default function SplitWith({ selectedFriends }) {
     const [bill, setBill] = useState(null);
     const [expense, setExpense] = useState(null);
     const [whoPays, setWhoPays] = useState('You');
@@ -11,25 +12,32 @@ export default function SplitWith() {
     }
 
     return (
-        <form>
+        <form className="split-with-container">
+            <h2>Split the bill with {selectedFriends.name}</h2>
             <div className="flex-item">
                 <p>Bill valeu</p>
                 <input
                     value={bill}
                     placeholder="bill amount"
-                    onChange={(e) => setBill(e.target.value)}
+                    onChange={(e) => setBill(Number(e.target.value))}
                 ></input>
             </div>
             <div className="flex-item">
                 <p>Your expense</p>
                 <input
                     value={expense}
-                    onChange={(e) => setExpense(e.target.value)}
+                    onChange={(e) =>
+                        setExpense(
+                            Number(e.target.value) > bill
+                                ? 'please be realistic'
+                                : Number(e.target.value)
+                        )
+                    }
                     placeholder="Your expense"
                 ></input>
             </div>
             <div className="flex-item">
-                <p>Friends expense</p>
+                <p>{selectedFriends.name}`s expense</p>
                 <input value={handleBill()} disabled></input>
             </div>
             <div className="flex-item">
@@ -39,9 +47,10 @@ export default function SplitWith() {
                     value={whoPays}
                 >
                     <option value="You">You</option>
-                    <option value="Friend">Friend</option>
+                    <option value="Friend">{selectedFriends.name}</option>
                 </select>
             </div>
+            <Button>split bill</Button>
         </form>
     );
 }
