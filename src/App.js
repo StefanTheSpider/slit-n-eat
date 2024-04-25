@@ -50,6 +50,18 @@ export default function App() {
         setOpenAddFriend(false);
     }
 
+    function handleSplit(valeue) {
+        setFriends((friends) =>
+            friends.map((friend) =>
+                friend.id === selectedFriends.id
+                    ? { ...friend, amount: friend.amount + valeue }
+                    : friend
+            )
+        );
+
+        setSelectedFriends(null);
+    }
+
     return (
         <div className="app-container">
             <div className="first-half">
@@ -70,7 +82,12 @@ export default function App() {
                     {!openAddFriend ? 'add a friend' : 'close'}
                 </Button>
             </div>
-            {selectedFriends && <SplitWith selectedFriends={selectedFriends} />}
+            {selectedFriends && (
+                <SplitWith
+                    onHandleSplit={handleSplit}
+                    selectedFriends={selectedFriends}
+                />
+            )}
         </div>
     );
 }
@@ -94,7 +111,6 @@ function FriendsList({ friends, onSelections, selectedFriends }) {
 
 function Friends({ friend, onSelections, onSelectedFriends }) {
     const isSelected = onSelectedFriends?.id === friend.id;
-    console.log(isSelected);
 
     return (
         <div className={isSelected ? 'selected' : 'friends-form'}>

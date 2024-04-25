@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Button from './Button';
 
-export default function SplitWith({ selectedFriends }) {
+export default function SplitWith({ selectedFriends, onHandleSplit }) {
     const [bill, setBill] = useState(null);
     const [expense, setExpense] = useState(null);
     const [whoPays, setWhoPays] = useState('You');
@@ -11,8 +11,14 @@ export default function SplitWith({ selectedFriends }) {
         return splitedBill;
     }
 
+    function handleSubmit(e) {
+        e.preventDefault(); /* verhindert, dass die Seite neu geladen wird(weil wir nur rendern wollen) */
+        if (!bill || !expense) return;
+        onHandleSplit(whoPays === 'You' ? expense : -expense);
+    }
+
     return (
-        <form className="split-with-container">
+        <form className="split-with-container" onSubmit={handleSubmit}>
             <h2>Split the bill with {selectedFriends.name}</h2>
             <div className="flex-item">
                 <p>Bill valeu</p>
